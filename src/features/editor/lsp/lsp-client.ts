@@ -9,6 +9,7 @@ import {
   convertLSPDiagnostic,
   useDiagnosticsStore,
 } from "@/features/diagnostics/stores/diagnostics-store";
+import type { InlayHint } from "@athas/editor-core";
 import type {
   ApplyDiagnosticCodeActionResult,
   Diagnostic,
@@ -951,20 +952,7 @@ export class LspClient {
     }
   }
 
-  async getInlayHints(
-    filePath: string,
-    startLine: number,
-    endLine: number,
-  ): Promise<
-    {
-      line: number;
-      character: number;
-      label: string;
-      kind?: string;
-      paddingLeft: boolean;
-      paddingRight: boolean;
-    }[]
-  > {
+  async getInlayHints(filePath: string, startLine: number, endLine: number): Promise<InlayHint[]> {
     try {
       return await invoke("lsp_get_inlay_hints", {
         filePath,

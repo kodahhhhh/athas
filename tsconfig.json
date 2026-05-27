@@ -18,10 +18,14 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@athas/editor": ["./packages/athas-editor/src/index.ts"],
+      "@athas/editor/*": ["./packages/athas-editor/src/*"],
+      "@athas/editor-core": ["./packages/athas-editor-core/src/index.ts"],
+      "@athas/editor-core/*": ["./packages/athas-editor-core/src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "packages/*/src"],
   "exclude": ["**/*.stories.tsx", "**/*.stories.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

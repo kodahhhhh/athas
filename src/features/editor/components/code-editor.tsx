@@ -93,7 +93,7 @@ const SEARCH_DEBOUNCE_MS = 300; // Debounce search regex matching
 const LSP_VIEWPORT_LINE_BUFFER = 30;
 const MAX_FILE_SEARCH_MATCHES = 20_000;
 const AthasEditor = lazy(() =>
-  import("@/features/athas-editor/components/editor").then((module) => ({
+  import("@athas/editor/athas-app").then((module) => ({
     default: module.Editor,
   })),
 );

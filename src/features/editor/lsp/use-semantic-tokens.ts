@@ -1,22 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { extensionRegistry } from "@/extensions/registry/extension-registry";
 import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import type { SemanticTokenState } from "@athas/editor-core";
 import { normalizeLineEndings } from "../utils/html";
 import { LspClient } from "./lsp-client";
 
-export interface SemanticToken {
-  line: number;
-  startChar: number;
-  length: number;
-  tokenType: number;
-  tokenModifiers: number;
-}
-
-export interface SemanticTokenState {
-  tokens: SemanticToken[];
-  content: string;
-  filePath?: string;
-}
+export type { SemanticToken, SemanticTokenState } from "@athas/editor-core";
 
 // Standard LSP semantic token types (order matters — matches capability declaration)
 export const TOKEN_TYPE_NAMES = [

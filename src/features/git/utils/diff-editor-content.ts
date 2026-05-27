@@ -1,16 +1,22 @@
 import type { TokenEntry } from "@/features/panes/types/pane-content";
+import {
+  createCollapsedDiffAccordionLine,
+  createDiffAccordionLine as createEditorDiffAccordionLine,
+  DIFF_ACCORDION_PREFIX,
+  isDiffAccordionLine,
+  parseDiffAccordionLine,
+  type DiffAccordionLineMeta,
+} from "@athas/editor-core/utils/diff-accordion";
 import type { MultiFileDiff } from "../types/git-diff-types";
 import type { GitDiff, GitDiffLine } from "../types/git-types";
 
-const DIFF_ACCORDION_PREFIX = "\uE000ATHAS_DIFF_FILE ";
-
-export interface DiffAccordionLineMeta {
-  name: string;
-  path: string;
-  status: "added" | "deleted" | "modified" | "renamed";
-  collapsed: boolean;
-  hiddenCount?: number;
-}
+export {
+  createCollapsedDiffAccordionLine,
+  DIFF_ACCORDION_PREFIX,
+  isDiffAccordionLine,
+  parseDiffAccordionLine,
+  type DiffAccordionLineMeta,
+};
 
 export type DiffEditorLineKind = "context" | "added" | "removed" | "spacer";
 
@@ -39,12 +45,12 @@ function getFileStatus(diff: GitDiff): DiffAccordionLineMeta["status"] {
 function createDiffAccordionLine(diff: GitDiff): string {
   const path = getDisplayPath(diff);
   const name = path.split("/").pop() || path;
-  return `${DIFF_ACCORDION_PREFIX}${JSON.stringify({
+  return createEditorDiffAccordionLine({
     name,
     path,
     status: getFileStatus(diff),
     collapsed: false,
-  } satisfies DiffAccordionLineMeta)}`;
+  });
 }
 
 function toDiffLineText(line: GitDiffLine): string {
@@ -275,27 +281,4 @@ export function createDiffTokensForEditorContent(content: string): TokenEntry[] 
   }
 
   return tokens;
-}
-
-export function isDiffAccordionLine(line: string): boolean {
-  return line.startsWith(DIFF_ACCORDION_PREFIX);
-}
-
-export function parseDiffAccordionLine(line: string): DiffAccordionLineMeta | null {
-  if (!isDiffAccordionLine(line)) return null;
-
-  try {
-    return JSON.parse(line.slice(DIFF_ACCORDION_PREFIX.length)) as DiffAccordionLineMeta;
-  } catch {
-    return null;
-  }
-}
-
-export function createCollapsedDiffAccordionLine(
-  meta: Omit<DiffAccordionLineMeta, "collapsed">,
-): string {
-  return `${DIFF_ACCORDION_PREFIX}${JSON.stringify({
-    ...meta,
-    collapsed: true,
-  } satisfies DiffAccordionLineMeta)}`;
 }

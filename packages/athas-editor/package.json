@@ -1,0 +1,126 @@
+{
+  "name": "@athas/editor",
+  "version": "0.0.0",
+  "description": "Reusable React editor surfaces and utilities from Athas.",
+  "files": [
+    "README.md",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "./src/styles/*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./athas-app": "./src/athas-app.ts",
+    "./components/controlled-editor": "./src/components/controlled-editor.tsx",
+    "./components/large-editor-surface": "./src/components/large-editor-surface.tsx",
+    "./decorations/diagnostic-decorations": "./src/decorations/diagnostic-decorations.ts",
+    "./host/file-url": "./src/host/file-url.ts",
+    "./host/tracing": "./src/host/tracing.ts",
+    "./styles/*": "./src/styles/*",
+    "./utils/auto-indent": "./src/utils/auto-indent.ts",
+    "./utils/auto-pair": "./src/utils/auto-pair.ts",
+    "./utils/bracket-matching": "./src/utils/bracket-matching.ts",
+    "./utils/buffer-switch-state": "./src/utils/buffer-switch-state.ts",
+    "./utils/comment-toggle": "./src/utils/comment-toggle.ts",
+    "./utils/diff-accordion": "./src/utils/diff-accordion.ts",
+    "./utils/editor-key-edits": "./src/utils/editor-key-edits.ts",
+    "./utils/go-to-line": "./src/utils/go-to-line.ts",
+    "./utils/gutter-width": "./src/utils/gutter-width.ts",
+    "./utils/gutter": "./src/utils/gutter.ts",
+    "./utils/html": "./src/utils/html.ts",
+    "./utils/indent-guides": "./src/utils/indent-guides.ts",
+    "./utils/inline-autocomplete-preview": "./src/utils/inline-autocomplete-preview.ts",
+    "./utils/large-editor-navigation": "./src/utils/large-editor-navigation.ts",
+    "./utils/large-file": "./src/utils/large-file.ts",
+    "./utils/language-id": "./src/utils/language-id.ts",
+    "./utils/language-detection": "./src/utils/language-detection.ts",
+    "./utils/line-operations": "./src/utils/line-operations.ts",
+    "./utils/lines": "./src/utils/lines.ts",
+    "./utils/lsp-completion-keys": "./src/utils/lsp-completion-keys.ts",
+    "./utils/multi-cursor": "./src/utils/multi-cursor.ts",
+    "./utils/path-helpers": "./src/utils/path-helpers.ts",
+    "./utils/position": "./src/utils/position.ts",
+    "./utils/search-replace": "./src/utils/search-replace.ts",
+    "./utils/search-match": "./src/utils/search-match.ts",
+    "./utils/search": "./src/utils/search.ts",
+    "./utils/select-next-occurrence": "./src/utils/select-next-occurrence.ts",
+    "./utils/selection-boxes": "./src/utils/selection-boxes.ts",
+    "./utils/selection-ranges": "./src/utils/selection-ranges.ts",
+    "./utils/syntax-tokenization": "./src/utils/syntax-tokenization.ts",
+    "./utils/text-operations": "./src/utils/text-operations.ts",
+    "./utils/token-layers": "./src/utils/token-layers.ts",
+    "./utils/tree-sitter-edit": "./src/utils/tree-sitter-edit.ts",
+    "./utils/visible-whitespace": "./src/utils/visible-whitespace.ts",
+    "./utils/word-highlight": "./src/utils/word-highlight.ts",
+    "./utils/word-navigation": "./src/utils/word-navigation.ts",
+    "./view-model/view-layout": "./src/view-model/view-layout.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@athas/editor-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "@tauri-apps/api": "^2.10.1",
+    "@tauri-apps/plugin-clipboard-manager": "~2.3.2",
+    "@xterm/addon-clipboard": "^0.1.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-unicode11": "^0.8.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "usehooks-ts": "^3.1.1",
+    "vscode-languageserver-protocol": "^3.17.5",
+    "web-tree-sitter": "^0.25.10",
+    "zustand": "^5.0.9"
+  },
+  "peerDependenciesMeta": {
+    "@phosphor-icons/react": {
+      "optional": true
+    },
+    "@tauri-apps/api": {
+      "optional": true
+    },
+    "@tauri-apps/plugin-clipboard-manager": {
+      "optional": true
+    },
+    "@xterm/addon-clipboard": {
+      "optional": true
+    },
+    "@xterm/addon-fit": {
+      "optional": true
+    },
+    "@xterm/addon-unicode11": {
+      "optional": true
+    },
+    "@xterm/addon-web-links": {
+      "optional": true
+    },
+    "@xterm/xterm": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "usehooks-ts": {
+      "optional": true
+    },
+    "vscode-languageserver-protocol": {
+      "optional": true
+    },
+    "web-tree-sitter": {
+      "optional": true
+    },
+    "zustand": {
+      "optional": true
+    }
+  }
+}

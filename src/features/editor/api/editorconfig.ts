@@ -1,15 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
+import type { EditorConfigProperties } from "@athas/editor-core";
 
-export interface EditorConfigProperties {
-  indentStyle?: "tab" | "space";
-  indentSize?: number;
-  tabWidth?: number;
-  endOfLine?: "lf" | "crlf" | "cr";
-  charset?: string;
-  trimTrailingWhitespace?: boolean;
-  insertFinalNewline?: boolean;
-  maxLineLength?: number;
-}
+export type { EditorConfigProperties } from "@athas/editor-core";
 
 function parseBoolValue(value: string): boolean | undefined {
   if (value === "true") return true;

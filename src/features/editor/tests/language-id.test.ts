@@ -2,7 +2,8 @@ import { describe, expect, it } from "vite-plus/test";
 import {
   getLanguageDisplayName as getAthasEditorLanguageDisplayName,
   getLanguageIdFromPath as getAthasEditorLanguageIdFromPath,
-} from "@/features/athas-editor/utils/language-id";
+  setLanguageIdResolver,
+} from "@athas/editor/utils/language-id";
 import { detectLanguageFromFileName } from "../utils/language-detection";
 import { getLanguageDisplayName, getLanguageIdFromPath } from "../utils/language-id";
 import { hasLineBasedSyntaxHighlighter, tokenizeLineBasedSyntax } from "../utils/line-based-syntax";
@@ -101,6 +102,17 @@ describe("Athas editor language detection", () => {
     expect(getAthasEditorLanguageIdFromPath("/tmp/bun.lock")).toBe("lockfile");
     expect(getAthasEditorLanguageDisplayName("gitattributes")).toBe("Git Attributes");
     expect(getAthasEditorLanguageDisplayName("lockfile")).toBe("Lockfile");
+  });
+
+  it("allows host applications to layer language IDs over the default mappings", () => {
+    setLanguageIdResolver((filePath) => (filePath.endsWith(".coline") ? "coline" : null));
+
+    try {
+      expect(getAthasEditorLanguageIdFromPath("/tmp/example.coline")).toBe("coline");
+      expect(getAthasEditorLanguageIdFromPath("/tmp/example.ts")).toBe("typescript");
+    } finally {
+      setLanguageIdResolver(null);
+    }
   });
 });
 

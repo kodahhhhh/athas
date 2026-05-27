@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vite-plus/test";
-import type { Diagnostic } from "@/features/diagnostics/types/diagnostics";
 import {
   buildDiagnosticDecorations,
   buildDiagnosticDecorationsByLine,
+  type EditorDiagnostic,
   getDiagnosticAtPosition,
-} from "../decorations/diagnostic-decorations";
+} from "@athas/editor/decorations/diagnostic-decorations";
 
-function diagnostic(overrides: Partial<Diagnostic>): Diagnostic {
+function diagnostic(overrides: Partial<EditorDiagnostic>): EditorDiagnostic {
   return {
     severity: "error",
     filePath: "/tmp/file.ts",

@@ -1,3 +1,5 @@
+export type { GitDiff, GitDiffLine, GitHunk } from "@athas/editor-core";
+
 export interface GitFile {
   path: string;
   status: "modified" | "added" | "deleted" | "untracked" | "renamed";
@@ -18,35 +20,6 @@ export interface GitCommit {
   author: string;
   email?: string;
   date: string;
-}
-
-export interface GitDiffLine {
-  line_type: "added" | "removed" | "context" | "header";
-  content: string;
-  old_line_number?: number;
-  new_line_number?: number;
-}
-
-export interface GitDiff {
-  file_path: string;
-  old_path?: string;
-  new_path?: string;
-  is_new: boolean;
-  is_deleted: boolean;
-  is_renamed: boolean;
-  lines: GitDiffLine[];
-  is_binary?: boolean;
-  is_image?: boolean;
-  old_blob_base64?: string;
-  new_blob_base64?: string;
-  raw_patch?: string;
-  additions?: number;
-  deletions?: number;
-}
-
-export interface GitHunk {
-  file_path: string;
-  lines: GitDiffLine[];
 }
 
 export interface GitRemote {

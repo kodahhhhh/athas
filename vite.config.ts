@@ -35,6 +35,8 @@ export default defineConfig({
   ].filter(Boolean),
   resolve: {
     alias: {
+      "@athas/editor": path.resolve(__dirname, "./packages/athas-editor/src"),
+      "@athas/editor-core": path.resolve(__dirname, "./packages/athas-editor-core/src"),
       "@": path.resolve(__dirname, "./src"),
     },
   },

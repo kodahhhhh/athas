@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@athas/editor": ["packages/athas-editor/src/index.ts"],
+      "@athas/editor/*": ["packages/athas-editor/src/*"],
+      "@athas/editor-core": ["packages/athas-editor-core/src/index.ts"],
+      "@athas/editor-core/*": ["packages/athas-editor-core/src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": []
+}

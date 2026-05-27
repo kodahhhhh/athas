@@ -1,13 +1,9 @@
 import { create } from "zustand";
+import type { FoldRegion } from "@athas/editor-core";
 import { logger } from "@/features/editor/utils/logger";
 import { createSelectors } from "@/utils/zustand-selectors";
 
-export interface FoldRegion {
-  startLine: number;
-  endLine: number;
-  indentLevel: number;
-  kind?: "generic" | "diff-file" | "diff-hunk";
-}
+export type { FoldRegion } from "@athas/editor-core";
 
 interface FileFoldState {
   regions: FoldRegion[];

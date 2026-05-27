@@ -1,21 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { extensionRegistry } from "@/extensions/registry/extension-registry";
 import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import type { InlayHint, InlayHintLineRange } from "@athas/editor-core";
 import { LspClient } from "./lsp-client";
 
-export interface InlayHint {
-  line: number;
-  character: number;
-  label: string;
-  kind?: string;
-  paddingLeft: boolean;
-  paddingRight: boolean;
-}
-
-export interface InlayHintLineRange {
-  startLine: number;
-  endLine: number;
-}
+export type { InlayHint, InlayHintLineRange } from "@athas/editor-core";
 
 const DEBOUNCE_MS = 500;
 

@@ -3,14 +3,9 @@
  */
 
 import type { Edit, Language, Parser, Query, Tree } from "web-tree-sitter";
+import type { HighlightToken } from "@athas/editor-core";
 
-export interface HighlightToken {
-  type: string;
-  startIndex: number;
-  endIndex: number;
-  startPosition: { row: number; column: number };
-  endPosition: { row: number; column: number };
-}
+export type { HighlightToken } from "@athas/editor-core";
 
 export interface ParserConfig {
   languageId: string;

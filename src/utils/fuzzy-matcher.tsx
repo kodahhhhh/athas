@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import type React from "react";
 import type { CompletionItem } from "vscode-languageserver-protocol";
+import type { FilteredCompletion as CoreFilteredCompletion } from "@athas/editor-core";
 
 export interface FuzzyMatchItem {
   text: string;
@@ -22,11 +23,7 @@ export interface CompletionFilterRequest {
   context_type?: string;
 }
 
-export interface FilteredCompletion {
-  item: CompletionItem;
-  score: number;
-  indices: number[];
-}
+export type FilteredCompletion = CoreFilteredCompletion<CompletionItem>;
 
 /**
  * Perform fuzzy matching on a list of strings

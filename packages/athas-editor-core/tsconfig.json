@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@athas/editor-core": ["packages/athas-editor-core/src/index.ts"],
+      "@athas/editor-core/*": ["packages/athas-editor-core/src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": []
+}
