@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { resolveLspCompletionKeyAction } from "../utils/lsp-completion-keys";
+import { resolveLspCompletionKeyAction } from "@athas/editor-core/utils/lsp-completion-keys";
 import type { FilteredCompletion } from "@/utils/fuzzy-matcher";
 
 function completion(label: string): FilteredCompletion {

@@ -3,7 +3,7 @@ import {
   applyIncrementalLargeEditorModeInfo,
   getLargeEditorModeInfo,
   type LargeEditorModeInfo,
-} from "../utils/large-file";
+} from "@athas/editor-core/utils/large-file";
 
 export function useLargeEditorModeInfo(content: string): LargeEditorModeInfo {
   const cacheRef = useRef<{

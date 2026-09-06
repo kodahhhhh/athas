@@ -11,7 +11,7 @@ import {
 } from "react";
 import { EDITOR_CONSTANTS } from "@athas/editor-core";
 import { editorAPI } from "@/features/editor/extensions/api";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
 import type { Position, Range } from "@athas/editor-core";
 import { readEditorClipboardText, writeEditorClipboardText } from "../utils/clipboard";
 import {

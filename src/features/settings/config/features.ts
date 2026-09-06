@@ -1,18 +1,20 @@
 import {
-  Brain,
-  Bug,
-  BugBeetle,
-  GitBranch,
-  GitPullRequest,
-  ListBullets,
-  ChatCircleText as MessageSquare,
-  NavigationArrow as Navigation,
-  MagnifyingGlass as Search,
-  HardDrives as Server,
-  TerminalWindow as TerminalIcon,
-  UsersThree,
+  BrainIcon as Brain,
+  BugIcon as Bug,
+  BugBeetleIcon as BugBeetle,
+  CodeIcon as Code,
+  GitBranchIcon as GitBranch,
+  GitPullRequestIcon as GitPullRequest,
+  GlobeHemisphereWestIcon as Globe,
+  ListBulletsIcon as ListBullets,
+  ChatCircleTextIcon as MessageSquare,
+  NavigationArrowIcon as Navigation,
+  MagnifyingGlassIcon as Search,
+  HardDrivesIcon as Server,
+  TerminalWindowIcon as TerminalIcon,
+  UsersThreeIcon as UsersThree,
 } from "@phosphor-icons/react";
-import type { CoreFeature, CoreFeaturesState } from "../types/feature";
+import type { CoreFeature, CoreFeaturesState } from "../types/feature.types";
 
 export const createCoreFeaturesList = (coreFeatures: CoreFeaturesState): CoreFeature[] => [
   {
@@ -100,5 +102,21 @@ export const createCoreFeaturesList = (coreFeatures: CoreFeaturesState): CoreFea
     description: "The last used commands appear at the top of the command palette",
     icon: Brain,
     enabled: coreFeatures.persistentCommands,
+  },
+  {
+    id: "webViewer",
+    name: "Web Viewer",
+    description: "Open URLs in embedded editor tabs",
+    icon: Globe,
+    enabled: coreFeatures.webViewer,
+    status: "experimental",
+  },
+  {
+    id: "athasEditorEngine",
+    name: "Athas Editor Engine",
+    description: "Use the experimental Athas editor engine instead of Monaco",
+    icon: Code,
+    enabled: coreFeatures.athasEditorEngine,
+    status: "experimental",
   },
 ];

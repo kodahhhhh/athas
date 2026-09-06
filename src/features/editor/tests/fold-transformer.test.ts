@@ -3,7 +3,7 @@ import {
   applyVirtualEdit,
   transformContentForFolding,
   transformTokensForFolding,
-} from "../utils/fold-transformer";
+} from "@athas/editor/utils/fold-transformer";
 
 describe("fold transformer", () => {
   it("uses the provided line model when transforming folded content", () => {

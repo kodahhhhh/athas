@@ -8,10 +8,10 @@ import {
   nextTabStop,
   previousTabStop,
 } from "@/features/editor/snippets/snippet-expander";
-import { useBufferStore } from "@/features/editor/stores/buffer-store";
-import { useEditorStateStore } from "@/features/editor/stores/state-store";
+import { useBufferStore } from "@/features/editor/stores/buffer.store";
+import { useEditorStateStore } from "@/features/editor/stores/state.store";
 import { calculateCursorPositionFromContent } from "../utils/position";
-import { isEditorContent } from "@/features/panes/types/pane-content";
+import { isEditorContent } from "@/features/panes/types/pane-content.types";
 import { logger } from "../utils/logger";
 
 /**

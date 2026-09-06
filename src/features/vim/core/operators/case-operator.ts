@@ -5,8 +5,8 @@
  * gU + motion: uppercase text in range
  */
 
-import { calculateOffsetFromPosition } from "@/features/editor/utils/position";
-import type { EditorContext, Operator, VimRange } from "../core/types";
+import { calculateOffsetFromPosition } from "@athas/editor-core/utils/position";
+import type { EditorContext, Operator, VimRange } from "../core/types/core.types";
 
 const applyCaseTransform = (
   range: VimRange,

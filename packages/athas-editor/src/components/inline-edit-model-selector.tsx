@@ -1,4 +1,8 @@
-import { CaretLeft, Check, MagnifyingGlass as Search } from "@phosphor-icons/react";
+import {
+  CaretLeftIcon as CaretLeft,
+  CheckIcon as Check,
+  MagnifyingGlassIcon as Search,
+} from "@phosphor-icons/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { matchesSearchQuery } from "@athas/editor-core/utils/search-match";
 import { ProviderIcon } from "@/features/ai/components/icons/provider-icons";
@@ -6,9 +10,9 @@ import { ProviderApiKeyCommand } from "@/features/ai/components/provider-api-key
 import { canUseProviderWithoutApiKey } from "@/features/ai/lib/provider-access";
 import { getProviderApiToken } from "@/features/ai/services/ai-token-service";
 import { getProvider } from "@/features/ai/services/providers/ai-provider-registry";
-import { useAIChatStore } from "@/features/ai/store/store";
-import { getAvailableProviders, getProviderById } from "@/features/ai/types/providers";
-import { useAuthStore } from "@/features/window/stores/auth-store";
+import { useAIChatStore } from "@/features/ai/stores/ai-chat.store";
+import { getAvailableProviders, getProviderById } from "@/features/ai/types/providers.types";
+import { useAuthStore } from "@/features/window/stores/auth.store";
 import { Button } from "@/ui/button";
 import Command, {
   CommandEmpty,

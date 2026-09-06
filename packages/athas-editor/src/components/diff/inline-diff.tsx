@@ -1,8 +1,12 @@
 import type React from "react";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowCounterClockwise, X } from "@phosphor-icons/react";
+import {
+  ArrowCounterClockwiseIcon as ArrowCounterClockwise,
+  XIcon as X,
+} from "@phosphor-icons/react";
 import { EDITOR_CONSTANTS } from "@athas/editor-core";
 import type { GitDiffLine } from "@athas/editor-core";
+import { getDiffLineVisualState } from "@/features/git/utils/diff-viewer-visuals";
 import { Button } from "@/ui/button";
 
 interface InlineDiffProps {
@@ -150,9 +154,8 @@ function InlineDiffComponent({
               style={{
                 whiteSpace: "pre",
                 backgroundColor: currentHighlighted
-                  ? lineType === "removed"
-                    ? "color-mix(in srgb, var(--git-deleted, #f85149) 36%, transparent)"
-                    : "color-mix(in srgb, var(--git-added, #2ea043) 36%, transparent)"
+                  ? getDiffLineVisualState(lineType === "removed" ? "removed" : "added")
+                      .inlineHighlightBackground
                   : "transparent",
                 borderRadius: currentHighlighted ? "2px" : "0",
               }}
@@ -169,23 +172,6 @@ function InlineDiffComponent({
     }
 
     return <span style={{ whiteSpace: "pre", overflow: "hidden", flex: 1 }}>{segments}</span>;
-  };
-
-  const getLineBackground = (lineType: GitDiffLine["line_type"]) => {
-    switch (lineType) {
-      case "added":
-        return "color-mix(in srgb, var(--git-added, #2ea043) 16%, var(--primary-bg))";
-      case "removed":
-        return "color-mix(in srgb, var(--git-deleted, #f85149) 16%, var(--primary-bg))";
-      default:
-        return "var(--primary-bg)";
-    }
-  };
-
-  const getLineAccent = (lineType: GitDiffLine["line_type"]) => {
-    if (lineType === "added") return "var(--git-added, #2ea043)";
-    if (lineType === "removed") return "var(--git-deleted, #f85149)";
-    return "var(--border)";
   };
 
   const getLineMarker = (lineType: GitDiffLine["line_type"]) => {
@@ -278,8 +264,8 @@ function InlineDiffComponent({
                 lineHeight: `${lineHeight}px`,
                 fontSize: `${fontSize}px`,
                 fontFamily,
-                backgroundColor: getLineBackground(line.line_type),
-                boxShadow: `inset 3px 0 0 ${getLineAccent(line.line_type)}`,
+                backgroundColor: getDiffLineVisualState(line.line_type).inlineBackground,
+                boxShadow: `inset 3px 0 0 ${getDiffLineVisualState(line.line_type).inlineAccent}`,
               }}
             >
               <div />
@@ -288,7 +274,7 @@ function InlineDiffComponent({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: getLineAccent(line.line_type),
+                  color: getDiffLineVisualState(line.line_type).inlineAccent,
                   userSelect: "none",
                 }}
               >

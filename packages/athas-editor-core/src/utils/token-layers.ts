@@ -25,6 +25,62 @@ const SEMANTIC_TOKEN_CLASS_BY_TYPE: Record<number, string> = {
   22: "token-attribute",
 };
 
+const SEMANTIC_TOKEN_CLASS_BY_NAME: Record<string, string> = {
+  namespace: "token-type",
+  type: "token-type",
+  class: "token-type",
+  enum: "token-type",
+  interface: "token-type",
+  struct: "token-type",
+  typeParameter: "token-type",
+  parameter: "token-variable",
+  variable: "token-variable",
+  property: "token-property",
+  member: "token-property",
+  enumMember: "token-constant",
+  event: "token-function",
+  function: "token-function",
+  method: "token-function",
+  macro: "token-function",
+  keyword: "token-keyword",
+  modifier: "token-keyword",
+  comment: "token-comment",
+  string: "token-string",
+  number: "token-number",
+  regexp: "token-regex",
+  operator: "token-operator",
+  decorator: "token-attribute",
+  label: "token-constant",
+};
+
+function getSemanticTokenClassName(token: SemanticToken): string | undefined {
+  if (token.tokenTypeName) {
+    const className = SEMANTIC_TOKEN_CLASS_BY_NAME[token.tokenTypeName];
+    if (className) return className;
+  }
+
+  return SEMANTIC_TOKEN_CLASS_BY_TYPE[token.tokenType];
+}
+
+function isNeutralSemanticToken(token: Token): boolean {
+  return token.class_name === "token-variable";
+}
+
+function isSpecificSyntaxToken(token: Token): boolean {
+  return token.class_name !== "token-text" && token.class_name !== "token-variable";
+}
+
+function shouldApplySemanticToken(semanticToken: Token, syntaxTokens: Token[]): boolean {
+  if (!isNeutralSemanticToken(semanticToken)) return true;
+
+  return !syntaxTokens.some(
+    (syntaxToken) =>
+      isSpecificSyntaxToken(syntaxToken) &&
+      semanticToken.start < syntaxToken.end &&
+      semanticToken.end > syntaxToken.start,
+  );
+}
+
 export function semanticTokensToEditorTokens(
   semanticTokens: SemanticToken[],
   lineOffsets: number[],
@@ -33,7 +89,7 @@ export function semanticTokensToEditorTokens(
   const tokens: Token[] = [];
 
   for (const semanticToken of semanticTokens) {
-    const className = SEMANTIC_TOKEN_CLASS_BY_TYPE[semanticToken.tokenType];
+    const className = getSemanticTokenClassName(semanticToken);
     const lineOffset = lineOffsets[semanticToken.line];
     if (!className || lineOffset === undefined || semanticToken.length <= 0) continue;
 
@@ -55,9 +111,11 @@ export function mergeTokenLayers(syntaxTokens: Token[], semanticTokens: Token[])
   if (semanticTokens.length === 0) return syntaxTokens;
   if (syntaxTokens.length === 0) return semanticTokens;
 
-  const sortedSemanticTokens = [...semanticTokens].sort(
-    (a, b) => a.start - b.start || a.end - b.end,
-  );
+  const sortedSemanticTokens = semanticTokens
+    .filter((semanticToken) => shouldApplySemanticToken(semanticToken, syntaxTokens))
+    .sort((a, b) => a.start - b.start || a.end - b.end);
+  if (sortedSemanticTokens.length === 0) return syntaxTokens;
+
   const mergedSyntaxTokens: Token[] = [];
 
   for (const token of syntaxTokens) {

@@ -19,7 +19,6 @@ import {
   mergeTokenizedRange,
   retargetTokensForContentEdit,
   TOKENIZATION_LARGE_FILE_LINE_THRESHOLD,
-  type SyntaxTokenSnapshot,
 } from "../utils/syntax-tokenization";
 import { usePerformanceMonitor } from "./use-performance";
 import type { ViewportRange } from "./use-viewport-lines";

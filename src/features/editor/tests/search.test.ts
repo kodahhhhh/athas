@@ -7,7 +7,7 @@ import {
   getSearchMatchesInOffsetRange,
   getSearchViewportOffsetRange,
   searchMatchOverlapsOffsetRange,
-} from "../utils/search";
+} from "@athas/editor-core/utils/search";
 
 describe("editor search utilities", () => {
   it("limits match collection for large files", () => {

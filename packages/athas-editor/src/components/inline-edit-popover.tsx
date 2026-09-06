@@ -1,4 +1,4 @@
-import { ArrowBendDownLeft as CornerDownLeft, X } from "@phosphor-icons/react";
+import { ArrowBendDownLeftIcon as CornerDownLeft, XIcon as X } from "@phosphor-icons/react";
 import { forwardRef } from "react";
 import { Button } from "@/ui/button";
 import Input from "@/ui/input";
@@ -26,7 +26,7 @@ export const InlineEditPopover = forwardRef<HTMLDivElement, InlineEditPopoverPro
           aria-modal="false"
           aria-labelledby="inline-edit-title"
           aria-describedby="inline-edit-description"
-          className="pointer-events-auto absolute overflow-hidden rounded-md border border-border/70 bg-primary-bg shadow-lg"
+          className="pointer-events-auto absolute overflow-hidden rounded-md border border-border/70 bg-primary-bg shadow-[var(--shadow-popover)]"
           style={{
             top: `${zoneTop ?? state.popoverPosition.top}px`,
             left: `${state.popoverPosition.left}px`,
@@ -117,7 +117,7 @@ export const InlineEditPopover = forwardRef<HTMLDivElement, InlineEditPopoverPro
               id="inline-edit-error"
               role="alert"
               aria-live="assertive"
-              className="ui-font border-t border-border/50 bg-red-500/10 px-2 py-1 ui-text-xs text-red-300"
+              className="ui-font border-t border-border/50 bg-error/10 px-2 py-1 ui-text-xs text-error"
             >
               {state.inlineEditError}
             </div>

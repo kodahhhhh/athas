@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { applyIncrementalLineOffsetEdit, buildLineOffsetMap } from "../utils/html";
+import { applyIncrementalLineOffsetEdit, buildLineOffsetMap } from "@athas/editor-core/utils/html";
 
 describe("buildLineOffsetMap", () => {
   it("does not reuse cached offsets for different content with the same prefix and length", () => {

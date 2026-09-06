@@ -9,6 +9,7 @@ export interface CompletionKeyState {
   metaKey?: boolean;
   ctrlKey?: boolean;
   altKey?: boolean;
+  shiftKey?: boolean;
 }
 
 export type LspCompletionKeyAction<TCompletion> =
@@ -105,7 +106,7 @@ export function resolveLspCompletionKeyAction<TCompletion>({
     };
   }
 
-  if (keyState.key === "Enter" || keyState.key === "Tab") {
+  if (keyState.key === "Enter" || (keyState.key === "Tab" && !keyState.shiftKey)) {
     const completion = filteredCompletions[normalizedIndex]?.item;
     if (!completion) return null;
 

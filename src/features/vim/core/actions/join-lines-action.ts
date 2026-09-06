@@ -5,8 +5,8 @@
  * with a single space. Leading whitespace on the next line is removed.
  */
 
-import { calculateOffsetFromPosition } from "@/features/editor/utils/position";
-import type { Action, EditorContext } from "../core/types";
+import { calculateOffsetFromPosition } from "@athas/editor-core/utils/position";
+import type { Action, EditorContext } from "../core/types/core.types";
 
 export const joinLinesAction: Action = {
   name: "joinLines",

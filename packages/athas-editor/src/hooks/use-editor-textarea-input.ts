@@ -8,8 +8,8 @@ import {
 } from "react";
 import { editorAPI } from "@/features/editor/extensions/api";
 import type { FoldTransformResult } from "./use-fold-transform";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
-import { applyIncrementalLineEdit } from "@/features/editor/stores/view-store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
+import { applyIncrementalLineEdit } from "@/features/editor/stores/view.store";
 import type { Position, Range } from "@athas/editor-core";
 import { applyVirtualEdit } from "../utils/fold-transformer";
 import { applyIncrementalLineOffsetEdit } from "../utils/html";
@@ -149,6 +149,9 @@ export function useEditorTextareaInput({
       const uiActions = useEditorUIStore.getState().actions;
       uiActions.clearTypingTransientState();
 
+      const selectionStart = inputRef.current.selectionStart;
+      const selectionEnd = inputRef.current.selectionEnd;
+      const focusOffset = getTextareaSelectionFocusOffset(inputRef.current);
       const newActualContent = foldTransform.hasActiveFolds
         ? applyVirtualEdit(content, newVirtualContent, foldTransform.mapping, actualLines)
         : newVirtualContent;
@@ -177,9 +180,6 @@ export function useEditorTextareaInput({
 
       if (!useGlobalEditorState) return;
 
-      const selectionStart = inputRef.current.selectionStart;
-      const selectionEnd = inputRef.current.selectionEnd;
-      const focusOffset = getTextareaSelectionFocusOffset(inputRef.current);
       const nextVirtualLineOffsets = applyIncrementalLineOffsetEdit(
         displayContent,
         newVirtualContent,

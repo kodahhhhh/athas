@@ -1,11 +1,11 @@
 import { memo, useMemo } from "react";
-import { useDebuggerStore } from "@/features/debugger/stores/debugger-store";
+import { useDebuggerStore } from "@/features/debugger/stores/debugger.store";
 import { EDITOR_CONSTANTS } from "@/features/editor/config/constants";
-import { GUTTER_CONFIG } from "@/features/editor/utils/gutter";
+import { GUTTER_CONFIG } from "@athas/editor-core/utils/gutter";
 import {
   getViewZoneHeightBeforeLine,
   type ResolvedEditorViewZone,
-} from "@/features/editor/view-model/view-layout";
+} from "@athas/editor-core/view-model/view-layout";
 
 interface DebugBreakpointIndicatorsProps {
   filePath?: string;

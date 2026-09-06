@@ -2,13 +2,13 @@ import { useCallback } from "react";
 import { EDITOR_CONSTANTS } from "@/features/editor/config/constants";
 import { editorAPI } from "@/features/editor/extensions/api";
 import { useCenterCursor } from "@/features/editor/hooks/use-center-cursor";
-import { useBufferStore } from "@/features/editor/stores/buffer-store";
-import { useJumpListStore } from "@/features/editor/stores/jump-list-store";
-import { useEditorStateStore } from "@/features/editor/stores/state-store";
-import { calculateOffsetFromContentPosition } from "@/features/editor/utils/position";
+import { useBufferStore } from "@/features/editor/stores/buffer.store";
+import { useJumpListStore } from "@/features/editor/stores/jump-list.store";
+import { useEditorStateStore } from "@/features/editor/stores/state.store";
+import { calculateOffsetFromContentPosition } from "@athas/editor-core/utils/position";
 import { readFileContent } from "@/features/file-system/controllers/file-operations";
 import { logger } from "../utils/logger";
-import type { EditorCoordinateResolver } from "../view-model/view-layout";
+import type { EditorCoordinateResolver } from "@athas/editor-core/view-model/view-layout";
 
 interface Definition {
   uri: string;

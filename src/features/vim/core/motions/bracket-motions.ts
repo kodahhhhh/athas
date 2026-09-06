@@ -1,6 +1,6 @@
-import type { Position } from "@/features/editor/types/editor";
-import { calculateOffsetFromPosition } from "@/features/editor/utils/position";
-import type { Motion, VimRange } from "../core/types";
+import type { Position } from "@/features/editor/types/editor.types";
+import { calculateOffsetFromPosition } from "@athas/editor-core/utils/position";
+import type { Motion, VimRange } from "../core/types/core.types";
 
 const BRACKET_PAIRS: Record<string, string> = {
   "(": ")",

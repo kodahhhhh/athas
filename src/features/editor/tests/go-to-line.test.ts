@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
-import { getLargeEditorModeInfo } from "../utils/large-file";
-import { resolveGoToLineTarget } from "../utils/go-to-line";
+import { getLargeEditorModeInfo } from "@athas/editor-core/utils/large-file";
+import { resolveGoToLineTarget } from "@athas/editor-core/utils/go-to-line";
 
 describe("resolveGoToLineTarget", () => {
   it("clamps one-based line and column requests", () => {

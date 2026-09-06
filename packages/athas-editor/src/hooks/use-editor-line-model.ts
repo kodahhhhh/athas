@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { applyIncrementalLineEdit } from "@/features/editor/stores/view-store";
+import { applyIncrementalLineEdit } from "@/features/editor/stores/view.store";
 import { fileOpenBenchmark } from "../utils/file-open-benchmark";
 import { countLines, isTooLargeForEditorServices } from "../utils/large-file";
 import { splitLines } from "../utils/lines";

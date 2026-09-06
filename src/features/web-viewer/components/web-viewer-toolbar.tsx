@@ -1,22 +1,23 @@
 import {
-  Check,
-  Code as Code2,
-  Copy,
-  ArrowSquareOut as ExternalLink,
-  Broom,
-  Minus,
-  Plus,
-  ArrowClockwise as RefreshCw,
-  Lock,
-  Shield,
-  ShieldWarning as ShieldAlert,
-  X,
-  MagnifyingGlassPlus as ZoomIn,
+  CheckIcon as Check,
+  CodeIcon as Code2,
+  CopyIcon as Copy,
+  ArrowSquareOutIcon as ExternalLink,
+  BroomIcon as Broom,
+  MinusIcon as Minus,
+  PlusIcon as Plus,
+  ArrowClockwiseIcon as RefreshCw,
+  LockIcon as Lock,
+  ShieldIcon as Shield,
+  ShieldWarningIcon as ShieldAlert,
+  XIcon as X,
+  MagnifyingGlassPlusIcon as ZoomIn,
 } from "@phosphor-icons/react";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { Button } from "@/ui/button";
 import { Dropdown, dropdownItemClassName } from "@/ui/dropdown";
 import Input from "@/ui/input";
+import { readClipboardText, writeClipboardText } from "@/utils/clipboard";
 
 interface WebViewerToolbarProps {
   canOpenDevTools: boolean;
@@ -113,16 +114,14 @@ export function WebViewerToolbar({
     if (key === "c" && selectedText) {
       event.preventDefault();
       event.stopPropagation();
-      const { writeText } = await import("@tauri-apps/plugin-clipboard-manager");
-      await writeText(selectedText);
+      await writeClipboardText(selectedText);
       return;
     }
 
     if (key === "x" && selectedText) {
       event.preventDefault();
       event.stopPropagation();
-      const { writeText } = await import("@tauri-apps/plugin-clipboard-manager");
-      await writeText(selectedText);
+      await writeClipboardText(selectedText);
       const nextValue = `${input.value.slice(0, selectionStart)}${input.value.slice(selectionEnd)}`;
       onInputUrlChange(nextValue);
       restoreSelection(input, selectionStart);
@@ -132,8 +131,7 @@ export function WebViewerToolbar({
     if (key === "v") {
       event.preventDefault();
       event.stopPropagation();
-      const { readText } = await import("@tauri-apps/plugin-clipboard-manager");
-      const pastedText = await readText();
+      const pastedText = await readClipboardText();
       const nextValue = `${input.value.slice(0, selectionStart)}${pastedText}${input.value.slice(
         selectionEnd,
       )}`;
@@ -143,7 +141,7 @@ export function WebViewerToolbar({
   };
 
   return (
-    <div className="flex h-11 shrink-0 items-center gap-0.5 border-border border-b bg-primary-bg px-2">
+    <div className="flex h-8 shrink-0 items-center gap-0.5 border-border border-b bg-primary-bg px-2">
       <form onSubmit={onUrlSubmit} className="flex flex-1 items-center">
         <div className="relative flex flex-1 items-center">
           <div
@@ -170,7 +168,7 @@ export function WebViewerToolbar({
             onChange={(e) => onInputUrlChange(e.target.value)}
             onKeyDown={handleUrlInputKeyDown}
             placeholder="Enter URL..."
-            className={`ui-text-sm h-7 w-full rounded-md pr-20 pl-8 focus:ring-accent/30 ${
+            className={`ui-text-xs h-6 w-full rounded-md pr-16 pl-7 focus:ring-accent/30 ${
               hasUrlError
                 ? "border-error/60 bg-error/5 focus:border-error"
                 : "border-border bg-primary-bg focus:border-accent"
@@ -206,7 +204,7 @@ export function WebViewerToolbar({
         </div>
       </form>
 
-      <div className="mx-1.5 h-5 w-px bg-border" />
+      <div className="mx-1.5 h-4 w-px bg-border" />
 
       <div className="flex items-center gap-0.5">
         <Button
@@ -214,6 +212,7 @@ export function WebViewerToolbar({
           variant="ghost"
           onClick={() => setShowZoomPopover((open) => !open)}
           tooltip="Zoom controls"
+          compact
         >
           <ZoomIn />
         </Button>

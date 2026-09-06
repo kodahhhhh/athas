@@ -13,17 +13,18 @@ import {
 import { createPortal } from "react-dom";
 import { useOnClickOutside } from "usehooks-ts";
 import { useGitGutter } from "@/features/git/hooks/use-git-gutter";
-import { isEditorContent } from "@/features/panes/types/pane-content";
-import { useSettingsStore } from "@/features/settings/store";
-import { useUIState } from "@/features/window/stores/ui-state-store";
-import { useVimStore } from "@/features/vim/stores/vim-store";
-import { useZoomStore } from "@/features/window/stores/zoom-store";
+import { isEditorContent } from "@/features/panes/types/pane-content.types";
+import { useSettingsStore } from "@/features/settings/stores/settings.store";
+import { useUIState } from "@/features/window/stores/ui-state.store";
+import { useVimStore } from "@/features/vim/stores/vim.store";
+import { useZoomStore } from "@/features/window/stores/zoom.store";
 import { keymapRegistry } from "@/features/keymaps/utils/registry";
 import { EDITOR_CONSTANTS } from "@athas/editor-core";
 import EditorContextMenu from "@/features/editor/context-menu/context-menu";
 import { editorAPI } from "@/features/editor/extensions/api";
 import { SYNTAX_HIGHLIGHTING_REFRESH_EVENT } from "@/features/editor/extensions/builtin/syntax-highlighting";
 import { useAutocomplete } from "../hooks/use-autocomplete";
+import { useAthasEditorTokens } from "../hooks/use-athas-editor-tokens";
 import { useBufferSwitch } from "../hooks/use-buffer-switch";
 import { useContextMenu } from "../hooks/use-context-menu";
 import { useDragScroll } from "../hooks/use-drag-scroll";
@@ -33,6 +34,7 @@ import { useEditorOperations } from "../hooks/use-editor-operations";
 import { useEditorScroll } from "../hooks/use-editor-scroll";
 import { useEditorSurfaceResolvers } from "../hooks/use-editor-surface-resolvers";
 import { useEditorTextareaInput } from "../hooks/use-editor-textarea-input";
+import { useEditorViewLayout } from "../hooks/use-editor-view-layout";
 import { useEditorWheelForwarding } from "../hooks/use-editor-wheel-forwarding";
 import { useEnsureCursorVisible } from "../hooks/use-ensure-cursor-visible";
 import { useFoldRegionScheduler } from "../hooks/use-fold-region-scheduler";
@@ -41,32 +43,24 @@ import { useInlineDiff } from "../hooks/use-inline-diff";
 import { useEditorLineModel } from "../hooks/use-editor-line-model";
 import { useInlayHintSuppression } from "../hooks/use-inlay-hint-suppression";
 import { useLargeEditorInput } from "../hooks/use-large-editor-input";
+import { InlineEditPopover } from "./inline-edit-popover";
 import { useInlineEdit } from "../hooks/use-inline-edit";
 import { useEditorMouseInteractions } from "../hooks/use-editor-mouse-interactions";
 import { usePerformanceMonitor } from "../hooks/use-performance";
 import { useResolvedEditorSettings } from "../hooks/use-resolved-settings";
 import { useSelectionScope } from "../hooks/use-selection-scope";
 import { useTokenizationScheduler } from "../hooks/use-tokenization-scheduler";
-import { getLanguageId, useTokenizer, type SyntaxTokenSnapshot } from "../hooks/use-tokenizer";
-import {
-  resolveSyntaxTokensForContent,
-  retargetTokensForContentEdit,
-} from "../utils/syntax-tokenization";
+import { getLanguageId, useTokenizer } from "../hooks/use-tokenizer";
 import { expandViewportRange, useViewportLines } from "../hooks/use-viewport-lines";
 import type { InlayHint, SemanticTokenState } from "@athas/editor-core";
-import { useBufferStore } from "@/features/editor/stores/buffer-store";
-import { useFoldStore } from "@/features/editor/stores/fold-store";
-import { useMinimapStore } from "@/features/editor/stores/minimap-store";
-import { useEditorSettingsStore } from "@/features/editor/stores/settings-store";
-import { useEditorStateStore } from "@/features/editor/stores/state-store";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
-import { useInlineEditToolbarStore } from "@/features/editor/stores/inline-edit-toolbar-store";
+import { useBufferStore } from "@/features/editor/stores/buffer.store";
+import { useFoldStore } from "@/features/editor/stores/fold.store";
+import { useMinimapStore } from "@/features/editor/stores/minimap.store";
+import { useEditorSettingsStore } from "@/features/editor/stores/settings.store";
+import { useEditorStateStore } from "@/features/editor/stores/state.store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
 import type { Position, Range } from "@athas/editor-core";
-import {
-  applyVirtualEdit,
-  calculateActualOffset,
-  transformTokensForFolding,
-} from "../utils/fold-transformer";
+import { applyVirtualEdit, calculateActualOffset } from "../utils/fold-transformer";
 import { fileOpenBenchmark } from "../utils/file-open-benchmark";
 import {
   applyIncrementalLineOffsetEdit,
@@ -92,25 +86,13 @@ import {
   measureRenderedTextWidth,
 } from "../utils/position";
 import {
-  canApplySemanticTokenState,
-  mergeTokenLayers,
-  semanticTokensToEditorTokens,
-} from "../utils/token-layers";
-import {
-  buildEditorViewLayout,
   type EditorCoordinateResolver,
-  type EditorViewZone,
   type EditorModelPositionResolver,
 } from "../view-model/view-layout";
 import { applyEditorScrollTransform } from "../utils/scroll-layers";
-import {
-  calculateInlineDiffHeight,
-  getInlineDiffLinesToShow,
-  InlineDiff,
-} from "./diff/inline-diff";
+import { InlineDiff } from "./diff/inline-diff";
 import { Gutter } from "./gutter/gutter";
 import { InlineAutocompleteHint, InlineAutocompletePreview } from "./inline-autocomplete-preview";
-import { InlineEditPopover } from "./inline-edit-popover";
 import { LargeEditorSurface } from "./large-editor-surface";
 import { BracketMatchLayer } from "./layers/bracket-match-layer";
 import { CurrentLineLayer } from "./layers/current-line-layer";
@@ -163,7 +145,6 @@ export interface EditorProps {
 const INCREMENTAL_TOKENIZATION_LINE_THRESHOLD = 1000;
 const INLAY_HINT_TYPING_SUPPRESS_MS = 650;
 const FOLD_RECOMPUTE_TYPING_DEBOUNCE_MS = 250;
-const INLINE_EDIT_VIEW_ZONE_HEIGHT = 42;
 const LARGE_FILE_RENDER_OVERSCAN_LINES = 80;
 
 function estimateInlayHintWidth(
@@ -219,7 +200,6 @@ export function Editor({
   const inlineEditOverlayRef = useRef<HTMLDivElement>(null);
   const gitBlameRef = useRef<HTMLDivElement>(null);
   const inlineDiffRef = useRef<HTMLDivElement>(null);
-  const syntaxTokenSnapshotRef = useRef<SyntaxTokenSnapshot | null>(null);
   const displayLineOffsetsCacheRef = useRef<{
     content: string;
     offsets: number[];
@@ -472,90 +452,19 @@ export function Editor({
     textareaContent.length,
     wordWrap,
   ]);
-  const isInlineEditToolbarVisible = useInlineEditToolbarStore.use.isVisible();
-  const viewZones = useMemo(() => {
-    const zones: EditorViewZone[] = [];
-
-    if (inlineDiff.state.isOpen && !largeContentMode) {
-      const visualLine = foldTransform.hasActiveFolds
-        ? (foldTransform.mapping.actualToVirtual.get(inlineDiff.state.lineNumber) ??
-          inlineDiff.state.lineNumber)
-        : inlineDiff.state.lineNumber;
-
-      if (visualLine >= 0 && visualLine < lines.length) {
-        const linesToShow = getInlineDiffLinesToShow(
-          inlineDiff.state.diffLines,
-          inlineDiff.state.lineNumber,
-          inlineDiff.state.type,
-        );
-
-        zones.push({
-          id: "inline-diff",
-          afterLine: visualLine,
-          height: calculateInlineDiffHeight(linesToShow.length, lineHeight),
-        });
-      }
-    }
-
-    if (isInlineEditToolbarVisible && !largeContentMode) {
-      const visualLine = foldTransform.hasActiveFolds
-        ? (foldTransform.mapping.actualToVirtual.get(cursorPosition.line) ?? cursorPosition.line)
-        : cursorPosition.line;
-
-      if (visualLine >= 0 && visualLine < lines.length) {
-        zones.push({
-          id: "inline-edit",
-          afterLine: visualLine,
-          height: INLINE_EDIT_VIEW_ZONE_HEIGHT,
-        });
-      }
-    }
-
-    return zones;
-  }, [
-    cursorPosition.line,
-    foldTransform.hasActiveFolds,
-    foldTransform.mapping,
-    inlineDiff.state.diffLines,
-    inlineDiff.state.isOpen,
-    inlineDiff.state.lineNumber,
-    inlineDiff.state.type,
-    isInlineEditToolbarVisible,
-    largeContentMode,
-    lineHeight,
-    lines.length,
-  ]);
-  const viewLayout = useMemo(
-    () =>
-      buildEditorViewLayout({
-        lines,
-        lineCount: visualLineCount,
-        lineHeight,
-        wordWrap,
-        contentWidth,
-        measureText: measureEditorText,
-        zones: viewZones,
-        compact: largeContentMode || (!wordWrap && viewZones.length === 0),
-      }),
-    [
+  const { viewLayout, editorBottomSafePadding, inlineDiffTop, inlineEditZoneTop } =
+    useEditorViewLayout({
       lines,
       visualLineCount,
       lineHeight,
       wordWrap,
       contentWidth,
-      measureEditorText,
-      viewZones,
+      measureText: measureEditorText,
       largeContentMode,
-    ],
-  );
-  const editorBottomSafePadding = useMemo(
-    () =>
-      Math.max(
-        EDITOR_CONSTANTS.COMPLETION_DROPDOWN_SAFE_AREA,
-        lineHeight * EDITOR_CONSTANTS.CURSOR_BOTTOM_SAFE_AREA_LINES,
-      ),
-    [lineHeight],
-  );
+      foldTransform,
+      inlineDiffState: inlineDiff.state,
+      cursorLine: cursorPosition.line,
+    });
   const shouldVirtualizeRendering =
     !wordWrap && visualLineCount >= EDITOR_CONSTANTS.RENDER_VIRTUALIZATION_THRESHOLD;
   const tokenizationEnabled =
@@ -679,61 +588,22 @@ export function Editor({
         : calculateCursorPositionFromLineOffsets(offset, lines, displayLineOffsets),
     [displayContent, displayLineOffsets, largeContentMode, lines],
   );
-  useEffect(() => {
-    if (!bufferId || tokens.length === 0 || !tokenizedContent) return;
-    syntaxTokenSnapshotRef.current = {
-      bufferId,
-      content: tokenizedContent,
-      tokens,
-    };
-  }, [bufferId, tokenizedContent, tokens]);
-  const baseTokens = useMemo(() => {
-    if (!tokenizationEnabled) return [];
-
-    return resolveSyntaxTokensForContent({
-      tokens,
-      tokenizedContent,
-      normalizedContent: normalizedEditorContent,
-      bufferId: bufferId || undefined,
-      snapshot: syntaxTokenSnapshotRef.current,
-    });
-  }, [bufferId, normalizedEditorContent, tokenizationEnabled, tokenizedContent, tokens]);
-  const semanticEditorTokens = useMemo(() => {
-    if (largeContentMode) return [];
-    if (!canApplySemanticTokenState(semanticTokens, filePath)) return [];
-
-    const semanticContent = semanticTokens.content || normalizedEditorContent;
-    const tokensForSemanticContent = semanticTokensToEditorTokens(
-      semanticTokens.tokens,
-      buildLineOffsetMap(semanticContent),
-      semanticContent.length,
-    );
-
-    if (semanticContent === normalizedEditorContent) return tokensForSemanticContent;
-
-    return retargetTokensForContentEdit(
-      tokensForSemanticContent,
-      semanticContent,
-      normalizedEditorContent,
-    );
-  }, [filePath, largeContentMode, normalizedEditorContent, semanticTokens]);
-  const layeredTokens = useMemo(
-    () => mergeTokenLayers(baseTokens, semanticEditorTokens),
-    [baseTokens, semanticEditorTokens],
-  );
-  const effectiveTokens = useMemo(() => {
-    if (!foldTransform.hasActiveFolds) return layeredTokens;
-    return transformTokensForFolding(
-      content,
-      foldTransform.virtualLines,
-      foldTransform.mapping,
-      layeredTokens,
-    );
-  }, [content, foldTransform, layeredTokens]);
+  const effectiveTokens = useAthasEditorTokens({
+    bufferId,
+    content,
+    normalizedEditorContent,
+    filePath,
+    largeContentMode,
+    tokenizationEnabled,
+    tokens,
+    tokenizedContent,
+    semanticTokens,
+    foldTransform,
+  });
   const deferredMinimapLines = useDeferredValue(lines);
   const deferredMinimapLineOffsets = useDeferredValue(displayLineOffsets);
   const deferredMinimapTokens = useDeferredValue(effectiveTokens);
-  const useCustomInsertCaret = largeContentMode;
+  const useCustomInsertCaret = useGlobalEditorState && !readOnly;
 
   useEffect(() => {
     if (!isActiveSurface) return;
@@ -1386,35 +1256,6 @@ export function Editor({
     measureEditorText,
   ]);
 
-  const inlineDiffTop = useMemo(() => {
-    if (!inlineDiff.state.isOpen) return undefined;
-    const zone = viewLayout.zones.find((entry) => entry.id === "inline-diff");
-    if (zone) return zone.top;
-
-    const visualLine = foldTransform.hasActiveFolds
-      ? (foldTransform.mapping.actualToVirtual.get(inlineDiff.state.lineNumber) ??
-        inlineDiff.state.lineNumber)
-      : inlineDiff.state.lineNumber;
-
-    if (visualLine < 0 || visualLine >= lines.length) return undefined;
-
-    const lineText = lines[visualLine] ?? "";
-    const segment = viewLayout.getSegmentForModelPosition(visualLine, lineText.length);
-    return segment.top + segment.height;
-  }, [
-    foldTransform.hasActiveFolds,
-    foldTransform.mapping,
-    inlineDiff.state.isOpen,
-    inlineDiff.state.lineNumber,
-    lines,
-    viewLayout,
-  ]);
-
-  const inlineEditZoneTop = useMemo(() => {
-    const zone = viewLayout.zones.find((entry) => entry.id === "inline-edit");
-    return zone?.top;
-  }, [viewLayout]);
-
   if (!buffer) return null;
 
   return (
@@ -1569,10 +1410,8 @@ export function Editor({
                 : (lines[visualCursorLine] ?? "")
             }
             textareaRef={largeContentMode ? largeEditorScrollRef : inputRef}
-            hidden={
-              !!largeSelectionOffsets ||
-              (vimModeEnabled && (vimMode === "normal" || vimMode === "visual"))
-            }
+            hasSelection={largeContentMode ? !!largeSelectionOffsets : !!selection}
+            hidden={vimModeEnabled && (vimMode === "normal" || vimMode === "visual")}
           />
         )}
         {useGlobalEditorState && (
@@ -1818,6 +1657,12 @@ export function Editor({
             onDuplicate={() => {
               void keymapRegistry.executeCommand("editor.duplicateLine");
             }}
+            onSelectNextOccurrence={() => {
+              void keymapRegistry.executeCommand("editor.selectNextOccurrence");
+            }}
+            onSelectAllOccurrences={() => {
+              void keymapRegistry.executeCommand("editor.selectAllOccurrences");
+            }}
             onIndent={largeContentMode ? largeEditorInput.handleIndent : editorOps.indent}
             onOutdent={largeContentMode ? largeEditorInput.handleOutdent : editorOps.outdent}
             onToggleComment={() => {
@@ -1825,6 +1670,9 @@ export function Editor({
             }}
             onFormat={() => {
               void keymapRegistry.executeCommand("editor.formatDocument");
+            }}
+            onFormatSelection={() => {
+              void keymapRegistry.executeCommand("editor.formatSelection");
             }}
             onToggleCase={
               largeContentMode ? largeEditorInput.handleToggleCase : editorOps.toggleCase
@@ -1843,6 +1691,15 @@ export function Editor({
             }}
             onRenameSymbol={() => {
               void keymapRegistry.executeCommand("editor.renameSymbol");
+            }}
+            onQuickFix={() => {
+              void keymapRegistry.executeCommand("editor.quickFix");
+            }}
+            onShowHover={() => {
+              void keymapRegistry.executeCommand("editor.showHover");
+            }}
+            onTriggerSuggest={() => {
+              void keymapRegistry.executeCommand("editor.triggerSuggest");
             }}
           />,
           document.body,

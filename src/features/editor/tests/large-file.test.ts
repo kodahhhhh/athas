@@ -15,13 +15,13 @@ import {
   shouldUseLargeEditorMode,
   sliceContentLines,
   sliceContentLinesByOffsets,
-} from "../utils/large-file";
+} from "@athas/editor-core/utils/large-file";
 import {
   calculateCursorPositionFromContent,
   calculateCursorPositionFromLineOffsets,
   calculateOffsetFromContentPosition,
   getLineTextFromContent,
-} from "../utils/position";
+} from "@athas/editor-core/utils/position";
 import { getUndoEditDelta } from "../history/undo-grouping";
 
 describe("large file editor mode", () => {

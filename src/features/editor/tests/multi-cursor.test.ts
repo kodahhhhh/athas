@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vite-plus/test";
-import type { Cursor } from "../types/editor";
+import type { Cursor } from "../types/editor.types";
 import {
   applyMultiCursorBackspace,
   applyMultiCursorEdit,
   resolveCursorPositionsAtLineEndsForSelection,
   resolveMultiCursorKeyEdit,
-} from "../utils/multi-cursor";
+} from "@athas/editor-core/utils/multi-cursor";
 
 function cursor(id: string, line: number, column: number, offset: number): Cursor {
   return {

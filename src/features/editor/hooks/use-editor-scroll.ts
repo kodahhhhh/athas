@@ -1,7 +1,7 @@
 import { type RefObject, useCallback, useEffect, useRef } from "react";
-import { useEditorStateStore } from "../stores/state-store";
-import { applyEditorScrollTransform, type ScrollLayerRef } from "../utils/scroll-layers";
-import { scrollLogger } from "../utils/scroll-logger";
+import { useEditorStateStore } from "../stores/state.store";
+import { applyEditorScrollTransform, type ScrollLayerRef } from "@athas/editor/utils/scroll-layers";
+import { scrollLogger } from "@athas/editor/utils/scroll-logger";
 
 const SCROLL_STATE_UPDATE_INTERVAL_MS = 33;
 

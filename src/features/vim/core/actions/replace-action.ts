@@ -2,8 +2,8 @@
  * Replace action (r)
  */
 
-import { calculateCursorPosition } from "@/features/editor/utils/position";
-import type { Action, EditorContext } from "../core/types";
+import { calculateCursorPosition } from "@athas/editor-core/utils/position";
+import type { Action, EditorContext } from "../core/types/core.types";
 import { setVimClipboard } from "../operators/yank-operator";
 
 /**

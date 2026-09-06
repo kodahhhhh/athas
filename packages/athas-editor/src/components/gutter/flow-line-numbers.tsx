@@ -1,8 +1,11 @@
 import { memo, useCallback, useMemo } from "react";
-import { CaretDown as ChevronDown, CaretRight as ChevronRight } from "@phosphor-icons/react";
-import { useDebuggerStore } from "@/features/debugger/stores/debugger-store";
+import {
+  CaretDownIcon as ChevronDown,
+  CaretRightIcon as ChevronRight,
+} from "@phosphor-icons/react";
+import { useDebuggerStore } from "@/features/debugger/stores/debugger.store";
 import { EDITOR_CONSTANTS } from "@athas/editor-core";
-import { useFoldStore } from "@/features/editor/stores/fold-store";
+import { useFoldStore } from "@/features/editor/stores/fold.store";
 import { parseDiffAccordionLine } from "../../utils/diff-accordion";
 import { calculateLineNumberWidth, GUTTER_CONFIG } from "../../utils/gutter";
 import type { ResolvedEditorViewZone } from "../../view-model/view-layout";
@@ -197,7 +200,7 @@ function FlowLineNumbersComponent({
                         }}
                         aria-label={isCollapsed ? "Expand fold" : "Collapse fold"}
                         aria-expanded={!isCollapsed}
-                        className="flex h-4 w-4 items-center justify-center rounded text-text-lighter transition-colors hover:bg-hover/40 hover:text-text"
+                        className="flex size-4 items-center justify-center rounded text-text-lighter transition-colors hover:bg-hover/40 hover:text-text"
                       >
                         {isCollapsed ? (
                           <ChevronRight size={14} strokeWidth={2} />

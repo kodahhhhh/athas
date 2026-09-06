@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { shouldRestoreBufferSwitchState } from "../utils/buffer-switch-state";
+import { shouldRestoreBufferSwitchState } from "@athas/editor-core/utils/buffer-switch-state";
 
 describe("shouldRestoreBufferSwitchState", () => {
   it("does not restore state again for the same buffer and view key", () => {

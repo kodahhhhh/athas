@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { indentText, outdentText, toggleCaseText } from "../utils/text-operations";
+import { indentText, outdentText, toggleCaseText } from "@athas/editor-core/utils/text-operations";
 
 describe("editor text operations", () => {
   it("inserts indentation at the cursor", () => {

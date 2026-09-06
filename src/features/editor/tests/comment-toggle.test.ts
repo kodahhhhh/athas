@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vite-plus/test";
-import { getLineCommentTokenForLanguage, toggleLineComment } from "../utils/comment-toggle";
+import {
+  getLineCommentTokenForLanguage,
+  toggleLineComment,
+} from "@athas/editor-core/utils/comment-toggle";
 
 describe("toggleLineComment", () => {
   it("keeps the cursor on the same code when commenting a line", () => {
@@ -52,7 +55,9 @@ describe("toggleLineComment", () => {
     expect(result.content).toBe("// one\ntwo");
   });
 
-  it("uses hash comments for dotenv", () => {
+  it("uses hash comments for dotenv and statistical languages", () => {
     expect(getLineCommentTokenForLanguage("dotenv")).toBe("#");
+    expect(getLineCommentTokenForLanguage("r")).toBe("#");
+    expect(getLineCommentTokenForLanguage("rmarkdown")).toBe("#");
   });
 });

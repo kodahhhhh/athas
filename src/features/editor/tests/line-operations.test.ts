@@ -6,7 +6,7 @@ import {
   duplicateLine,
   moveLineDown,
   moveLineUp,
-} from "../utils/line-operations";
+} from "@athas/editor-core/utils/line-operations";
 
 describe("line operation utilities", () => {
   it("duplicates the current line below and preserves cursor column", () => {

@@ -5,7 +5,7 @@ import {
   getAccurateCursorX,
   getLineTextFromContent,
   getLineTextsFromContent,
-} from "../utils/position";
+} from "@athas/editor-core/utils/position";
 
 describe("position utilities", () => {
   it("extracts one line without CRLF terminators", () => {

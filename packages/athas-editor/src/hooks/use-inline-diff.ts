@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GitDiffLine } from "@athas/editor-core";
-import { useFileSystemStore } from "@/features/file-system/controllers/store";
+import { useFileSystemStore } from "@/features/file-system/stores/file-system.store";
 import { getFileDiffAgainstContent } from "@/features/git/api/git-diff-api";
 
-interface InlineDiffState {
+export interface InlineDiffState {
   isOpen: boolean;
   lineNumber: number;
   type: "added" | "modified" | "deleted";

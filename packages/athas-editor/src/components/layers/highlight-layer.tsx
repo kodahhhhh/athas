@@ -1,11 +1,11 @@
 import { forwardRef, memo, type ReactNode, useMemo, useRef } from "react";
 import {
-  CaretDown as ChevronDown,
-  CaretRight as ChevronRight,
-  FileCode as FileJson2,
-  FileText,
+  CaretDownIcon as ChevronDown,
+  CaretRightIcon as ChevronRight,
+  FileCodeIcon as FileJson2,
+  FileTextIcon as FileText,
 } from "@phosphor-icons/react";
-import { useDiagnosticsStore } from "@/features/diagnostics/stores/diagnostics-store";
+import { useDiagnosticsStore } from "@/features/diagnostics/stores/diagnostics.store";
 import type { ResolvedEditorViewZone } from "../../view-model/view-layout";
 import { parseDiffAccordionLine } from "../../utils/diff-accordion";
 import {
@@ -17,10 +17,7 @@ import {
 import { buildLineOffsetMap, normalizeLineEndings, type Token } from "../../utils/html";
 import { countLines, sliceContentLines, sliceContentLinesByOffsets } from "../../utils/large-file";
 import { buildTokenOverlapIndex, findFirstTokenOverlappingOffset } from "../../utils/token-layers";
-import {
-  createVisibleWhitespaceMask,
-  splitVisibleWhitespaceSegments,
-} from "../../utils/visible-whitespace";
+import { splitVisibleWhitespaceSegments } from "../../utils/visible-whitespace";
 import type { InlayHint, RenderWhitespaceMode } from "@athas/editor-core";
 
 interface LineMapping {
@@ -101,7 +98,6 @@ const Line = memo<LineProps>(
       }
 
       const result: ReactNode[] = [];
-      const visibleWhitespaceMask = createVisibleWhitespaceMask(lineContent, renderWhitespace);
       let lastIndex = 0;
       let spanKey = 0;
       let lastTokenClass: string | undefined;
@@ -169,7 +165,7 @@ const Line = memo<LineProps>(
             lineContent,
             segmentStart,
             segmentEnd,
-            visibleWhitespaceMask,
+            renderWhitespace,
           );
 
           for (const segment of segments) {

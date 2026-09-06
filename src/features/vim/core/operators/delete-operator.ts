@@ -2,8 +2,8 @@
  * Delete operator (d)
  */
 
-import { calculateOffsetFromPosition } from "@/features/editor/utils/position";
-import type { EditorContext, Operator, VimRange } from "../core/types";
+import { calculateOffsetFromPosition } from "@athas/editor-core/utils/position";
+import type { EditorContext, Operator, VimRange } from "../core/types/core.types";
 import { setVimClipboard } from "./yank-operator";
 
 /**

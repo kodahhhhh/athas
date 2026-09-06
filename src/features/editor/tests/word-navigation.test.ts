@@ -3,7 +3,7 @@ import {
   getNextWordOffset,
   getPreviousWordOffset,
   getWordRangeAtOffset,
-} from "../utils/word-navigation";
+} from "@athas/editor-core/utils/word-navigation";
 
 describe("word navigation", () => {
   it("moves to previous word starts", () => {

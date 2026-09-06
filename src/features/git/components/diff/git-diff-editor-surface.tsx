@@ -1,12 +1,12 @@
 import CodeEditor from "@/features/editor/components/code-editor";
-import type { BreadcrumbProps } from "@/features/editor/components/toolbar/breadcrumb";
+import type { BreadcrumbProps } from "@athas/editor/components/toolbar/breadcrumb";
 import { useDiffEditorBuffer } from "../../hooks/use-diff-editor-buffer";
 import {
   serializeGitDiffForEditor,
   serializeMultiFileDiffForEditor,
 } from "../../utils/diff-editor-content";
-import type { MultiFileDiff } from "../../types/git-diff-types";
-import type { GitDiff } from "../../types/git-types";
+import type { MultiFileDiff } from "../../types/git-diff.types";
+import type { GitDiff } from "../../types/git.types";
 
 interface GitDiffEditorSurfaceProps {
   cacheKey: string;

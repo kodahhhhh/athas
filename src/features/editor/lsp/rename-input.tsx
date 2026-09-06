@@ -2,7 +2,7 @@ import type { ForwardedRef, RefObject } from "react";
 import { forwardRef, useCallback, useState } from "react";
 import { EDITOR_CONSTANTS } from "@/features/editor/config/constants";
 import Input from "@/ui/input";
-import type { EditorModelPositionResolver } from "../view-model/view-layout";
+import type { EditorModelPositionResolver } from "@athas/editor-core/view-model/view-layout";
 
 interface RenameInputProps {
   symbol: string;
@@ -66,7 +66,7 @@ const RenameInput = forwardRef(
             left: `${left}px`,
           }}
         >
-          <div className="flex items-center gap-1 rounded-md border border-accent/60 bg-secondary-bg p-0.5 shadow-lg">
+          <div className="flex items-center gap-1 rounded-md border border-accent/60 bg-secondary-bg p-0.5 shadow-[var(--shadow-popover)]">
             <Input
               ref={inputRef}
               value={value}

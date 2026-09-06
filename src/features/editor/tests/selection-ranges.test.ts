@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import type { Position, Range } from "../types/editor";
+import type { Position, Range } from "../types/editor.types";
 import {
   buildSelectionFromAnchor,
   getSelectionAnchorForCursor,
@@ -8,7 +8,7 @@ import {
   getSmartSelectionRanges,
   resolveExpandSelection,
   resolveShrinkSelection,
-} from "../utils/selection-ranges";
+} from "@athas/editor-core/utils/selection-ranges";
 
 const position = (offset: number): Position => ({ line: 0, column: offset, offset });
 

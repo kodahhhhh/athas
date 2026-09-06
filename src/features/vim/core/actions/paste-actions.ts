@@ -2,9 +2,9 @@
  * Paste actions (p, P)
  */
 
-import { calculateOffsetFromPosition } from "@/features/editor/utils/position";
-import { useVimStore } from "@/features/vim/stores/vim-store";
-import type { Action, EditorContext } from "../core/types";
+import { calculateOffsetFromPosition } from "@athas/editor-core/utils/position";
+import { useVimStore } from "@/features/vim/stores/vim.store";
+import type { Action, EditorContext } from "../core/types/core.types";
 
 /**
  * Read from the current register (or unnamed if none selected)

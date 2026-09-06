@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { editorAPI } from "@/features/editor/extensions/api";
-import { useEditorStateStore } from "@/features/editor/stores/state-store";
-import { getLineTextFromContent } from "@/features/editor/utils/position";
+import { useEditorStateStore } from "@/features/editor/stores/state.store";
+import { getLineTextFromContent } from "@athas/editor-core/utils/position";
 import { LspClient } from "./lsp-client";
 import { applyWorkspaceEdit, isWorkspaceEdit, offsetFromPosition } from "./workspace-edit";
 import { logger } from "../utils/logger";

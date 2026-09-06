@@ -4,7 +4,7 @@ import {
   findBracketSelectionRange,
   findMatchingBracketAtCursor,
   removeBracketPairAtCursor,
-} from "../utils/bracket-matching";
+} from "@athas/editor-core/utils/bracket-matching";
 
 describe("bracket matching", () => {
   it("matches an opening bracket next to the cursor", () => {

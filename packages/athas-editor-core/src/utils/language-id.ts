@@ -10,6 +10,9 @@ const EXTENSION_TO_LANGUAGE: Record<string, string> = {
   mts: "typescript",
   cts: "typescript",
   py: "python",
+  ipy: "python",
+  ipynb: "jupyter-notebook",
+  rmd: "rmarkdown",
   rs: "rust",
   go: "go",
   java: "java",
@@ -124,6 +127,7 @@ const FILENAME_TO_LANGUAGE: Record<string, string> = {
   ".rgignore": "gitignore",
   ".stylelintignore": "gitignore",
   ".vscodeignore": "gitignore",
+  ".rprofile": "r",
   containerfile: "dockerfile",
   "cmakelists.txt": "cmake",
   dockerfile: "dockerfile",
@@ -149,6 +153,8 @@ export function normalizeLanguageId(languageId: string): string {
       return "csharp";
     case "mdx":
       return "markdown";
+    case "rmd":
+      return "rmarkdown";
     default:
       return languageId;
   }
@@ -166,6 +172,9 @@ export const LANGUAGE_DISPLAY_NAMES: Record<string, string> = {
   typescript: "TypeScript",
   typescriptreact: "TSX",
   python: "Python",
+  "jupyter-notebook": "Jupyter Notebook",
+  r: "R",
+  rmarkdown: "R Markdown",
   rust: "Rust",
   go: "Go",
   java: "Java",
@@ -222,7 +231,6 @@ export const LANGUAGE_DISPLAY_NAMES: Record<string, string> = {
   csv: "CSV",
   protobuf: "Protocol Buffers",
   ql: "QL",
-  r: "R",
   terraform: "Terraform",
   vim: "Vim",
   elm: "Elm",

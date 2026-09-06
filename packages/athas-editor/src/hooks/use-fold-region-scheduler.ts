@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useFoldStore } from "@/features/editor/stores/fold-store";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import { useFoldStore } from "@/features/editor/stores/fold.store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
 import { fileOpenBenchmark } from "../utils/file-open-benchmark";
 
 interface UseFoldRegionSchedulerOptions {

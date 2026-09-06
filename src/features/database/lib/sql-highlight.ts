@@ -1,4 +1,4 @@
-import type { Token } from "@/features/editor/utils/html";
+import type { Token } from "@athas/editor-core/utils/html";
 
 export interface SqlHighlightSegment {
   text: string;

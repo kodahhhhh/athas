@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { extensionRegistry } from "@/extensions/registry/extension-registry";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
 import type { SemanticTokenState } from "@athas/editor-core";
-import { normalizeLineEndings } from "../utils/html";
+import { normalizeLineEndings } from "@athas/editor-core/utils/html";
 import { LspClient } from "./lsp-client";
 
 export type { SemanticToken, SemanticTokenState } from "@athas/editor-core";

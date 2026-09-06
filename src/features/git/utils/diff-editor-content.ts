@@ -1,4 +1,4 @@
-import type { TokenEntry } from "@/features/panes/types/pane-content";
+import type { TokenEntry } from "@/features/panes/types/pane-content.types";
 import {
   createCollapsedDiffAccordionLine,
   createDiffAccordionLine as createEditorDiffAccordionLine,
@@ -7,8 +7,8 @@ import {
   parseDiffAccordionLine,
   type DiffAccordionLineMeta,
 } from "@athas/editor-core/utils/diff-accordion";
-import type { MultiFileDiff } from "../types/git-diff-types";
-import type { GitDiff, GitDiffLine } from "../types/git-types";
+import type { MultiFileDiff } from "../types/git-diff.types";
+import type { GitDiff, GitDiffLine } from "../types/git.types";
 
 export {
   createCollapsedDiffAccordionLine,

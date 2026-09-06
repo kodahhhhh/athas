@@ -1,13 +1,9 @@
 import { listen } from "@tauri-apps/api/event";
-import { Key as KeyRound } from "@phosphor-icons/react";
+import { KeyIcon as KeyRound } from "@phosphor-icons/react";
 import type React from "react";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { ProviderApiKeyCommand } from "@/features/ai/components/provider-api-key-command";
-import {
-  appendChatAcpEvent,
-  type ChatAcpEventInput,
-  truncateDetail,
-} from "@/features/ai/lib/acp-event-timeline";
+import { appendChatAcpEvent, type ChatAcpEventInput } from "@/features/ai/lib/acp-event-timeline";
 import { getChatTitleFromSessionInfo } from "@/features/ai/lib/acp-session-info";
 import { parseDirectAcpUiAction } from "@/features/ai/lib/acp-ui-intents";
 import { parseMentionsAndLoadFiles } from "@/features/ai/lib/file-mentions";
@@ -20,16 +16,16 @@ import {
 import { requestInlineEdit } from "@/features/editor/services/editor-inline-edit-service";
 import { AcpStreamHandler } from "@/features/ai/services/acp-stream-handler";
 import { getChatCompletionStream, isAcpAgent } from "@/features/ai/services/ai-chat-service";
-import { useAIChatStore } from "@/features/ai/store/store";
-import type { AcpEvent, AcpPermissionOption } from "@/features/ai/types/acp";
-import type { ContextInfo } from "@/features/ai/types/ai-context";
-import type { AIChatProps, Message } from "@/features/ai/types/ai-chat";
-import type { ChatAcpEvent } from "@/features/ai/types/chat-ui";
-import { useBufferStore } from "@/features/editor/stores/buffer-store";
+import { useAIChatStore } from "@/features/ai/stores/ai-chat.store";
+import type { AcpEvent, AcpPermissionOption } from "@/features/ai/types/acp.types";
+import type { ContextInfo } from "@/features/ai/types/ai-context.types";
+import type { AIChatProps, Message } from "@/features/ai/types/ai-chat.types";
+import type { ChatAcpEvent } from "@/features/ai/types/chat-ui.types";
+import { useBufferStore } from "@/features/editor/stores/buffer.store";
 import { useToast } from "@/features/layout/contexts/toast-context";
-import { useSettingsStore } from "@/features/settings/store";
-import { useAuthStore } from "@/features/window/stores/auth-store";
-import { useProjectStore } from "@/features/window/stores/project-store";
+import { useSettingsStore } from "@/features/settings/stores/settings.store";
+import { useAuthStore } from "@/features/window/stores/auth.store";
+import { useProjectStore } from "@/features/window/stores/project.store";
 import { Button } from "@/ui/button";
 import { cn } from "@/utils/cn";
 import { useChatActions, useChatState } from "../../hooks/use-chat-store";
@@ -498,6 +494,16 @@ const AIChat = memo(function AIChat({
         if (directAction) {
           const bufferActions = useBufferStore.getState().actions;
           if (directAction.kind === "open_web_viewer" && directAction.url) {
+            if (!useSettingsStore.getState().settings.coreFeatures.webViewer) {
+              chatActions.updateMessage(targetChatId, currentAssistantMessageId, {
+                content: "Web Viewer is disabled. Enable it in Settings > Features to open URLs.",
+                isStreaming: false,
+              });
+              chatActions.setIsTyping(false);
+              chatActions.setStreamingMessageId(null);
+              return;
+            }
+
             bufferActions.openWebViewerBuffer(directAction.url);
             chatActions.updateMessage(targetChatId, currentAssistantMessageId, {
               content: `Opened ${directAction.url} in Athas web viewer.`,
@@ -859,15 +865,28 @@ details: ${errorDetails || mainError}
             case "plan_update": {
               const summary =
                 event.entries.length > 0
-                  ? event.entries
-                      .slice(0, 2)
-                      .map((entry) => entry.content)
-                      .join(" | ")
+                  ? event.entries.map((entry) => entry.content).join(" | ")
                   : "No plan steps";
               appendAcpEvent({
                 kind: "plan",
                 label: `Plan updated (${event.entries.length} steps)`,
-                detail: truncateDetail(summary),
+                detail: summary,
+                state: "info",
+              });
+              break;
+            }
+            case "usage_update": {
+              const usagePercent =
+                event.usage.size > 0
+                  ? Math.round((event.usage.used / event.usage.size) * 100)
+                  : null;
+              appendAcpEvent({
+                kind: "status",
+                label: "Session usage updated",
+                detail:
+                  usagePercent === null
+                    ? `${event.usage.used} used`
+                    : `${event.usage.used}/${event.usage.size} (${usagePercent}%)`,
                 state: "info",
               });
               break;
@@ -879,7 +898,7 @@ details: ${errorDetails || mainError}
               appendAcpEvent({
                 kind: "error",
                 label: "Agent error",
-                detail: truncateDetail(event.error),
+                detail: event.error,
                 state: "error",
               });
               break;
@@ -1051,7 +1070,7 @@ details: ${errorDetails || mainError}
 
           {currentPermission && (
             <div className="bg-transparent px-3 pt-2 ui-text-xs">
-              <div className="flex h-9 items-center gap-2 rounded-lg border border-border/70 bg-primary-bg/92 px-2 shadow-sm">
+              <div className="flex h-9 items-center gap-2 rounded-lg border border-border/70 bg-primary-bg/92 px-2 shadow-[var(--shadow-card)]">
                 <KeyRound className="size-3.5 shrink-0 text-text-lighter" weight="duotone" />
                 <div
                   className="min-w-0 flex-1 truncate text-text"

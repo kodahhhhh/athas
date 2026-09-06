@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 import { EDITOR_CONSTANTS } from "@athas/editor-core";
-import { useEditorDecorationsStore } from "@/features/editor/stores/decorations-store";
+import { useEditorDecorationsStore } from "@/features/editor/stores/decorations.store";
 import type { Decoration } from "@athas/editor-core";
 import { GUTTER_CONFIG } from "../../utils/gutter";
 import {

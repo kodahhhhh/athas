@@ -4,8 +4,8 @@
 
 import type { RefObject } from "react";
 import { memo, useMemo } from "react";
-import { useEditorSettingsStore } from "@/features/editor/stores/settings-store";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import { useEditorSettingsStore } from "@/features/editor/stores/settings.store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
 import { getAccurateCursorX } from "../../utils/position";
 import { calculateSelectionBoxes } from "../../utils/selection-boxes";
 import type { EditorViewLayout } from "../../view-model/view-layout";

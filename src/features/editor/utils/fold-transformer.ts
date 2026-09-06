@@ -1,6 +1,6 @@
 import type { FoldRegion } from "@athas/editor-core";
-import type { Token } from "./html";
-import { buildLineOffsetMap } from "./html";
+import type { Token } from "@athas/editor-core/utils/html";
+import { buildLineOffsetMap } from "@athas/editor-core/utils/html";
 import {
   createCollapsedDiffAccordionLine,
   parseDiffAccordionLine,

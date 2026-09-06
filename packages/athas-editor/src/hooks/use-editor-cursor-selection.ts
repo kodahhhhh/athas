@@ -1,6 +1,6 @@
 import { useCallback, type RefObject } from "react";
 import type { FoldTransformResult } from "./use-fold-transform";
-import { useEditorUIStore } from "@/features/editor/stores/ui-store";
+import { useEditorUIStore } from "@/features/editor/stores/ui.store";
 import type { Position, Range } from "@athas/editor-core";
 import { calculateActualOffset } from "../utils/fold-transformer";
 import {

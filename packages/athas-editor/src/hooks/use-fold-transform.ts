@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useFoldStore } from "@/features/editor/stores/fold-store";
+import { useFoldStore } from "@/features/editor/stores/fold.store";
 import { transformContentForFolding } from "../utils/fold-transformer";
 import { splitLines } from "../utils/lines";
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 import { EDITOR_CONSTANTS } from "../config/constants";
-import { buildEditorViewLayout } from "../view-model/view-layout";
+import { buildEditorViewLayout } from "@athas/editor-core/view-model/view-layout";
 
 const measureText = (text: string) => text.length * 10;
 const contentWidthForColumns = (columns: number) =>
